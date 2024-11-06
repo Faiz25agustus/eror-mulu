@@ -181,6 +181,7 @@
 
 
 import 'dart:io';
+import 'dart:math';
 
 
 import 'package:flutter/material.dart';
@@ -198,11 +199,15 @@ class AddUser extends StatefulWidget {
  State<AddUser> createState() => _AddUserState();
 }
 
-
 class _AddUserState extends State<AddUser> {
  final _nameController = TextEditingController();
+ final _emailController = TextEditingController();
  final _nisnController = TextEditingController();
+ final _birthplaceController = TextEditingController();
  final _birthDateController = TextEditingController();
+ String _selectedGender = "Laki-laki"; 
+ final _genderController = TextEditingController();
+ final _agamaController = TextEditingController();
  final _studentDb = StudentDatabase.instance;
  File? _imageFile;
 
@@ -227,10 +232,43 @@ class _AddUserState extends State<AddUser> {
              _buildLabel('Nama Siswa'),
              _buildTextField(_nameController, 'Masukkan Nama'),
              SizedBox(height: 20),
+             _buildLabel('Email Siswa'),
+             _buildTextField(_emailController, 'Masukan Email'),
+             SizedBox(height: 20,),
              _buildLabel('NISN Siswa'),
              _buildTextField(_nisnController, 'Masukan NSIN'),
              SizedBox(height: 20),
              _buildLabel('Tanggal Lahir'),
+               SizedBox(height: 20,),
+               _buildLabel('Tempat lahir'),
+               _buildTextField(_birthplaceController, 'Isi Tempat Lahir'),
+               SizedBox(height: 20,),
+               _buildLabel('Jenis Kelamin'),
+               _buildTextField(_genderController, 'Pilih Gender'),
+               SizedBox(height: 20,),
+               _buildLabel('Agama'),
+               _buildTextField(_agamaController, 'Masukan Agamamu'),
+               RadioListTile(
+                title: Text('Laki-Laki'),
+                value: 'Laki-Laki', 
+                groupValue: _selectedGender, 
+                onChanged: (value) {
+                  setState(() {
+                    _selectedGender = value!;
+                  }
+                  );
+                },
+                 ),
+                 Expanded(child: RadioListTile(
+                  value: 'Perempuan', 
+                  groupValue: _selectedGender, 
+                  onChanged:(value) {
+                    setState(() {
+                      _selectedGender = value!;
+                    }
+                    );
+                  },)
+                  ),
              GestureDetector(
                onTap: _selectDate,
                child: AbsorbPointer(
@@ -238,7 +276,7 @@ class _AddUserState extends State<AddUser> {
                    _birthDateController,
                    'Pilih Tanggal Lahir',
                    suffixIcon: Icons.calendar_today,
-                 ),
+                 ), 
                ),
              ),
              const SizedBox(height: 20),
@@ -252,7 +290,7 @@ class _AddUserState extends State<AddUser> {
                        horizontal: 40, vertical: 15),
                    shape: RoundedRectangleBorder(
                      borderRadius: BorderRadius.circular(30),
-                   ),
+                   ), 
                    backgroundColor: Colors.purple,
                  ),
                  child: const Text(
@@ -306,7 +344,7 @@ class _AddUserState extends State<AddUser> {
      photoPath: _imageFile?.path,
    );
 
-
+ 
    await _studentDb.insertStudent(student);
    _clearFields();
    ScaffoldMessenger.of(context).showSnackBar(

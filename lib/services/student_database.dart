@@ -73,4 +73,20 @@ class StudentDatabase {
       whereArgs: [id],
     );
   }
+
+
+
+  // Update Data Siswa
+
+ Future<void> updateStudent(Student student) async {
+  final db = await getDatabase();
+  await db.update(
+    'students',
+    student.toMap(),
+    where: 'id = ?',
+   whereArgs: [student.id],
+  );
+ }
 }
+
+

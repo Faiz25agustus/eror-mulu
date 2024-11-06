@@ -10,7 +10,7 @@ class Student{
   required this.name,
   required this.nisn,
   required this.birthDate,
-  this.photoPath,
+  this.photoPath, String? photopath,
   });
 
 Map<String, dynamic> toMap() {

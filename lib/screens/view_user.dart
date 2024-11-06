@@ -139,7 +139,7 @@ class _ViewUserPageState extends State<ViewUserPage> {
      context,
      MaterialPageRoute(
        builder: (context) {
-         return const EditStudentPage();
+         return  EditStudentPage(student: student);
        },
      ),
    ).then((_) {
